@@ -38,5 +38,5 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{upstream_name}-%{version}-*.egg-info
 
 %changelog
-* Mon Mar 10 2014 Romain Acciari <romain.acciari@worldline.com> - 0.1.2-1
+* Mon Mar 10 2014 Romain Acciari <romain.acciari@gmail.com> - 0.1.2-1
 - Initial release

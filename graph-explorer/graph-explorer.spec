@@ -75,10 +75,10 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Feb 26 2014 Romain Acciari <romain.acciari@worldline.com> 1.2.0-3
+* Wed Feb 26 2014 Romain Acciari <romain.acciari@gmail.com> 1.2.0-3
 - Almost ready version
 - httpd WSGI ready
-* Tue Feb 25 2014 Romain Acciari <romain.acciari@worldline.com> 1.2.0-2
+* Tue Feb 25 2014 Romain Acciari <romain.acciari@gmail.com> 1.2.0-2
 - Fix the source tarball
-* Mon Feb 24 2014 Romain Acciari <romain.acciari@worldline.com> 1.2.0-1
+* Mon Feb 24 2014 Romain Acciari <romain.acciari@gmail.com> 1.2.0-1
 - Initial release. For testing purpose only !
