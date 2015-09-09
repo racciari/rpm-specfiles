@@ -17,6 +17,7 @@ tls_client_ca_file: /etc/pki/tls/certs/ca-bundle.crt
 # OpenIO specific options
 object_storage_enabled: yes
 openio_namespace: OPENIO
+openio_account: openio
 openio_autocreate: yes
 archive_enabled: yes
 archive_days: 0

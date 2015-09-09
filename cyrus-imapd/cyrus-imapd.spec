@@ -1,6 +1,6 @@
 Name: cyrus-imapd
-Version: 3.0pre
-Release: 1%{?dist}
+Version: 3.0pre2
+Release: 2%{?dist}
 
 %define ssl_pem_file %{_sysconfdir}/pki/%{name}/%{name}.pem
 
@@ -53,8 +53,10 @@ BuildRequires: krb5-devel
 BuildRequires: net-snmp-devel
 BuildRequires: transfig
 BuildRequires: libtool
-BuildRequires: libcurl-devel,neon-devel,sqlite-devel
-BuildRequires: openio-sds-client-devel = test201507191913.master
+BuildRequires: libcurl-devel,neon-devel,sqlite-devel,json-c-devel
+BuildRequires: openio-sds-client-devel >= 0.8.1
+# Required by enable-http
+BuildRequires: libxml2-devel,libical-devel,jansson-devel,vim-common
 
 Requires(post):   e2fsprogs, perl, grep, coreutils, findutils, systemd-units
 Requires(preun):  systemd-units, coreutils
@@ -64,7 +66,7 @@ Requires: %{name}-utils = %{version}-%{release}
 Requires: file, libdb-utils
 Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
-Requires: openio-sds-common = test201507191913.master
+Requires: openio-sds-common >= 0.8.1
 
 %{?perl_default_filter}
 
@@ -119,6 +121,7 @@ Cyrus IMAP server. It can be installed on systems other than the
 one running the server.
 
 %prep
+exit 1
 %setup -q -n %{name}-Cyrus-OpenIO
 #%patch3 -p1 -b .flock
 #%patch4 -p1 -b .authid_normalize
@@ -164,18 +167,14 @@ LDFLAGS="$LDFLAGS -pie"; export LDFLAGS
 
 %{configure} \
   --sbindir=%{_cyrexecdir} \
-  --enable-netscapehack \
-  --enable-listext \
   --enable-idled \
   --with-ldap=/usr \
   --with-snmp \
+  --enable-http \
   --enable-murder \
   --enable-replication \
   --enable-nntp \
   --with-perl=%{__perl} \
-  --with-cyrus-prefix=%{_cyrexecdir} \
-  --with-service-path=%{_cyrexecdir} \
-  --with-bdb-incdir=%{_includedir}/libdb \
   --with-extraident="Fedora-RPM-%{version}-%{release}" \
   --with-syslogfacility=MAIL \
   --with-krbimpl=mit \
@@ -280,6 +279,10 @@ mv -f %{buildroot}%{_cyrexecdir}/fetchnews      %{buildroot}%{_cyrexecdir}/cyrfe
 mv -f %{buildroot}%{_mandir}/man8/fetchnews.8   %{buildroot}%{_mandir}/man8/cyrfetchnews.8
 %{__perl} -pi -e 's|fetchnews|cyrfetchnews|g;s|Fetchnews|Cyrfetchnews|g;s/FETCHNEWS/CYRFETCHNEWS/g' \
         %{buildroot}%{_mandir}/man8/cyrfetchnews.8
+
+# Rename 'httpd' binary and manpage to avoid clash with httpd
+mv -f %{buildroot}%{_exec_prefix}/libexec/httpd      %{buildroot}%{_exec_prefix}/libexec/cyrhttpd
+mv -f %{buildroot}%{_mandir}/man8/httpd.8   %{buildroot}%{_mandir}/man8/cyrhttpd.8
 
 #remove executable bit from docs
 for ddir in doc perl/imap/examples
@@ -428,6 +431,12 @@ fi
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 08 2015 Romain Acciari <romain.acciari@openio.io> - 3.0pre2-2
+- Fix httpd conflicts
+
+* Tue Sep 08 2015 Romain Acciari <romain.acciari@openio.io> - 3.0pre2-1
+- New release
+
 * Wed Jul 15 2015 Romain Acciari <romain.acciari@openio.io> - 3.0pre-1
 - pre 3.0 for testing purpose only
 - Use small configuration instead of prefork
