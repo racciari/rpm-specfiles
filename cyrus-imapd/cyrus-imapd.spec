@@ -1,6 +1,6 @@
 Name: cyrus-imapd
 Version: 3.0pre2
-Release: 2%{?dist}
+Release: 4%{?dist}
 
 %define ssl_pem_file %{_sysconfdir}/pki/%{name}/%{name}.pem
 
@@ -53,7 +53,7 @@ BuildRequires: krb5-devel
 BuildRequires: net-snmp-devel
 BuildRequires: transfig
 BuildRequires: libtool
-BuildRequires: libcurl-devel,neon-devel,sqlite-devel,json-c-devel
+BuildRequires: libcurl-devel,neon-devel,sqlite-devel,json-c-devel >= 0.12
 BuildRequires: openio-sds-client-devel >= 0.8.1
 # Required by enable-http
 BuildRequires: libxml2-devel,libical-devel,jansson-devel,vim-common
@@ -121,7 +121,6 @@ Cyrus IMAP server. It can be installed on systems other than the
 one running the server.
 
 %prep
-exit 1
 %setup -q -n %{name}-Cyrus-OpenIO
 #%patch3 -p1 -b .flock
 #%patch4 -p1 -b .authid_normalize
@@ -178,6 +177,7 @@ LDFLAGS="$LDFLAGS -pie"; export LDFLAGS
   --with-extraident="Fedora-RPM-%{version}-%{release}" \
   --with-syslogfacility=MAIL \
   --with-krbimpl=mit \
+  --enable-autocreate=yes \
   --with-openio=yes \
   --with-openio-libdir=%{_libdir} \
   --with-openio-incdir=%{_includedir}
@@ -431,6 +431,12 @@ fi
 %{_mandir}/man3/*
 
 %changelog
+* Mon Sep 21 2015 Romain Acciari <romain.acciari@openio.io> - 3.0pre2-4
+- Add autocreate option
+
+* Mon Sep 21 2015 Romain Acciari <romain.acciari@openio.io> - 3.0pre2-3
+- Add openio_account option by default
+
 * Tue Sep 08 2015 Romain Acciari <romain.acciari@openio.io> - 3.0pre2-2
 - Fix httpd conflicts
 

@@ -14,6 +14,7 @@ tls_server_key: /etc/pki/cyrus-imapd/cyrus-imapd.pem
 tls_client_ca_file: /etc/pki/tls/certs/ca-bundle.crt
 # uncomment this if you're operating in a DSCP environment (RFC-4594)
 # qosmarking: af13
+
 # OpenIO specific options
 object_storage_enabled: yes
 openio_namespace: OPENIO
@@ -21,3 +22,9 @@ openio_account: openio
 openio_autocreate: yes
 archive_enabled: yes
 archive_days: 0
+
+# autocreate options
+autocreate_users: anyone
+autocreate_quota: 2048 
+autocreate_post:1
+autocreate_inbox:1
